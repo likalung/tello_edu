@@ -1,8 +1,5 @@
 import socket, threading, time, pygame
-#you will need to install pygame for music play
-#before use this file, you need to set the tello IP
-#in your router, i use 101 as the first tello IP address
-#Just set all the tello in your router
+#This file is write by Li Ka Lung.
 
 # setup music file
 musicfile = "bg.mid" # midi, ogg, mp3 file stored in same folder is OK
@@ -100,10 +97,11 @@ def sendcmd(xt, message):
 
 
 
-#send( "Command" , tello number eg. "1,2,3-5,6")    
+# Command example: send( "Command" , tello number eg. "1,2,3-5,6")    
 
 # Put Tello into command mode
 send("command", "all")
+#start position sensor
 send("mon", "all")
 send("mdirection 2", "all")
 #start music

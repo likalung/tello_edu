@@ -34,7 +34,6 @@ else :
     for i in range(totaltellonumber):
     #   set tello unit identify number
         x = str(i + initaltellonumber)
-        x = str(tellolist[i])
         alltello = alltello + x + ','
         globals()["tello" + x + "_address"] = ("192.168.1." + str(startip) , telloport)
         startip = startip + 1
@@ -47,8 +46,8 @@ else :
 alltello = alltello[:-1]
 
 #prepare for pygame music
-pygame.mixer.init();
-pygame.mixer.music.load(musicfile);
+pygame.mixer.init()
+pygame.mixer.music.load(musicfile)
 
 # delay time
 def wait(delay):
@@ -82,7 +81,7 @@ def send(message, target):
     print (str(round(endtime - starttime , 3)) + "sec")
 
 def sendcmd(xt, message):
-    stopcmd = "stop";
+    stopcmd = "stop"
     xt = str(xt)
     telloaddr = eval("tello" + xt + "_address")
     sock = eval("sock" + xt )

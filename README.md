@@ -7,5 +7,7 @@ Before you start:
 Choosing mode:
 You can use continue IP address's tello edu (set uselist as 0) or randomly choose tello edu as you like, just put the tello number in to the tellolist and set uselist as 1.
 
-
+Plan your swarm:
+you can set your swarm command after the command example line, the command is very easy to understand. send("command", "1,2,4-6,10") means that tello number 1,2,4,5,6,10 will receive the command line "command".
+To start the swarm, you must first ask the tello to command mode. and for better position, you should ask the tello edu to start the position sensor, and better both open. then you can start takeoff and do what you want.
 

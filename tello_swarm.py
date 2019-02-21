@@ -1,4 +1,5 @@
 import socket, threading, time, pygame
+
 #This file is write by Li Ka Lung.
 
 # setup music file
@@ -7,7 +8,7 @@ musicfile = "bg.mid" # midi, ogg, mp3 file stored in same folder is OK
 # setup tello
 telloport = 8889 # default by tello
 startip = 101 # set in router
-startlocalport = 9010 # just un-use port range
+startlocalport = 9000 # just un-use port range
 initaltellonumber = 1 #First tello number
 totaltellonumber = 20 # Total number of tello
 tellolist = [ 1,2,3,5,6 ] #tello number have 
@@ -58,7 +59,7 @@ def wait(delay):
         print("Error wait" + str(e))
 
 # send command to swarm
-def send(message, target):
+def send(message, target = "all"):
     starttime = time.time()
     if target.lower() == "all":
         target = alltello
@@ -96,13 +97,13 @@ def sendcmd(xt, message):
 
 
 
-# Command example: send( "Command" , tello number eg. "1,2,3-5,6")    
+# Command example: send( "Command" , tello number eg. "1,2,3-5,6" if no number means all)    
 
 # Put Tello into command mode
-send("command", "all")
+send("command")
 #start position sensor
-send("mon", "all")
-send("mdirection 2", "all")
+send("mon")
+send("mdirection 2")
 #start music
 pygame.mixer.music.play()
 # Send the takeoff command
@@ -114,7 +115,7 @@ wait(4)
 send("cw 360", "1 ,3")
 send("ccw 360", "2")
 wait(10)
-send("land", "All")
+send("land")
 wait(5)
 
 pygame.mixer.music.stop()
@@ -126,19 +127,21 @@ for i in range(totaltellonumber):
     globals()["sock" + x].close()
 input("Press Enter to exit")
 
+'''
+basic command list
+Command, stop, takeoff, land, mon,moff, emergency
+mdirection 0/1/2 (0 bottom sensor only , 1 front sensor only , 2 both,  one senor can run in 20Hz, both only 10Hz)
+up, down, left, right, forward, back (20-500)
+cw, ccw ( 1-360)
+flip l/r/f/b ( left / right / forward / back) 
+go x y z speed (x,y,z -500-500(can't be -20-20), speed 10-100 )
+curve x1 y1 z1 x2 y2 z2 speed  (radius not within a range of 0.5-10 meter)
+go x y z speed mid (x,y,z coordinates of mission pad, mid: m1 to m8, random pad: m-1, nearest pad: m-2 )
+curve x1 y1 z1 x2 y2 z2 speed mid 
+jump x y z speed yaw mid1 mid2 (yaw on mid2 1-360)
+mid = Mission Pad, m-1 = random, m-2 = nearest MP
+mdirection (0=downward '20Hz', 1=forward '20Hz', 2=both '10Hz' )
+speed?, battery?
+wifi ssid pass
 
-#basic command list
-# Command, stop, takeoff, land, mon,moff, emergency
-# mdirection 0/1/2 (0 bottom sensor only , 1 front sensor only , 2 both,  one senor can run in 20Hz, both only 10Hz)
-# up, down, left, right, forward, back (20-500)
-# cw, ccw ( 1-360)
-# flip l/r/f/b ( left / right / forward / back) 
-# go x y z speed (x,y,z -500-500(can't be -20-20), speed 10-100 )
-# curve x1 y1 z1 x2 y2 z2 speed  (radius not within a range of 0.5-10 meter)
-# go x y z speed mid (x,y,z coordinates of mission pad, mid: m1 to m8, random pad: m-1, nearest pad: m-2 )
-# curve x1 y1 z1 x2 y2 z2 speed mid 
-# jump x y z speed yaw mid1 mid2 (yaw on mid2 1-360)
-# mid = Mission Pad, m-1 = random, m-2 = nearest MP
-# mdirection (0=downward '20Hz', 1=forward '20Hz', 2=both '10Hz' )
-# speed?, battery?
-# wifi ssid pass
+mission pad range, height/square size: 0.3m/0.4m  - 1.2m/1m
